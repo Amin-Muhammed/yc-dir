@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-
+import { Toaster } from "@/components/ui/sonner";
 const workSans = localFont({
   src: [
     {
@@ -61,6 +61,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={workSans.variable}>{children}</body>
+      <Toaster richColors position={"top-center"} />
     </html>
   );
 }

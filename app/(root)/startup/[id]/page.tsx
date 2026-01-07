@@ -18,12 +18,10 @@ const page = async ({ params }: pageProps): Promise<ReactNode> => {
   const details = await client.fetch(START_UP_BY_ID_QUERY, { id });
   const { category, author, _createdAt, title, pitch, description, image } =
     details;
-  console.log(details);
   if (!details) {
     return notFound();
   }
   const parsedContent = md.render(pitch || "");
-  console.log(details);
   return (
     <>
       <section className="pink_container min-h-[230px]!">

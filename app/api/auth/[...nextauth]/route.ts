@@ -28,9 +28,11 @@ export const authOptions: NextAuthOptions = {
         return false;
       }
 
-      const existingUser = await client.fetch(AUTHOR_BY_GOOGLE_ID_QUERY, {
-        googleId: googleId,
-      });
+      const existingUser = await client
+        .withConfig({ useCdn: false })
+        .fetch(AUTHOR_BY_GOOGLE_ID_QUERY, {
+          googleId: googleId,
+        });
       console.log("user is.  found", existingUser);
       if (!existingUser) {
         await writeClient.create({
@@ -50,9 +52,11 @@ export const authOptions: NextAuthOptions = {
      */
     async jwt({ token, profile }) {
       if (profile?.sub) {
-        const author = await client.fetch(AUTHOR_BY_GOOGLE_ID_QUERY, {
-          googleId: profile.sub,
-        });
+        const author = await client
+          .withConfig({ useCdn: false })
+          .fetch(AUTHOR_BY_GOOGLE_ID_QUERY, {
+            googleId: profile.sub,
+          });
 
         token.sanityId = author?._id;
       }

@@ -2,19 +2,18 @@
 import type { ReactNode } from "react";
 import Navbar from "../../components/Navbar";
 import { SessionProvider } from "next-auth/react";
-
 import "easymde/dist/easymde.min.css";
 interface layoutProps {
   children: ReactNode;
 }
-const layout = ({ children }: Readonly<layoutProps>): ReactNode => {
+const layout = ({ children }: layoutProps) => {
   return (
-    <main>
-      <SessionProvider>
+    <SessionProvider>
+      <main>
         <Navbar />
-      </SessionProvider>
-      {children}
-    </main>
+        {children}
+      </main>
+    </SessionProvider>
   );
 };
 

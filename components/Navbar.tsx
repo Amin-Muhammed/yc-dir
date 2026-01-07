@@ -1,3 +1,4 @@
+import { CreativeCommonsIcon, LucideCreativeCommons, User } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,7 +6,7 @@ import Link from "next/link";
 const Navbar = () => {
   const { data: session } = useSession();
   const user = session?.user;
-  console.log(session?.user);
+  console.log(session?.user + "from navbar");
 
   return (
     <header className="px-5 bg-white shadow-sm py-3 font-work-sans text-stone-900">
@@ -17,9 +18,14 @@ const Navbar = () => {
         <div className="flex items-center gap-10">
           {user ? (
             <>
-              <Link href="/create/new">create</Link>
+              <Link href="/create">create</Link>
 
-              <button onClick={() => signOut()} type="submit">
+              <button
+                className="flex gap-3"
+                onClick={() => signOut()}
+                type="submit"
+              >
+                <User />
                 log out
               </button>
 
