@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useActionState } from "react";
+import { useState, useActionState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
@@ -9,13 +9,16 @@ import { Send } from "lucide-react";
 import { z } from "zod";
 import { formSchema } from "@/lib/validation";
 import { toast } from "sonner";
+import { createPitch } from "@/lib/actions";
+import { useRouter } from "next/navigation";
+// import { createIdea } from "@/lib/actions";
 
 //////////////////////////////////////////////////////////////////
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
-  // const router = useRouter();
+  const router = useRouter();
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
       const formValues = {
@@ -25,21 +28,20 @@ const StartupForm = () => {
         link: formData.get("link") as string,
         pitch,
       };
-
       await formSchema.parseAsync(formValues);
 
-      // const result = await createPitch(prevState, formData, pitch);
+      const result = await createPitch(prevState, formData, pitch);
+      console.log(result);
 
-      // if (result.status == "SUCCESS") {
-      //   toast({
-      //     title: "Success",
-      //     description: "Your startup pitch has been created successfully",
-      //   });
+      if (result.status == "SUCCESS") {
+        toast.success("Your startup pitch has been created successfully", {
+          description: "Thank you for sharing your idea with the community!",
+        });
 
-      //   router.push(`/startup/${result._id}`);
-      // }
+        router?.push(`/startup/${result._id}`);
+      }
 
-      // return result;
+      return result;
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErorrs = error.flatten().fieldErrors;
@@ -80,8 +82,6 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Title"
-          value={"fjs"} // development purpose only
-          //FIXME -  remove it when done
         />
 
         {errors.title && (
@@ -99,8 +99,6 @@ const StartupForm = () => {
           className="startup-form_textarea"
           required
           placeholder="Startup Description"
-          value={"fjs"} // development purpose only
-          //FIXME -  remove it when done
         />
 
         {errors.description && (
@@ -118,8 +116,6 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Category (Tech, Health, Education...)"
-          value={"fjs"} // development purpose only
-          //FIXME -  remove it when done
         />
 
         {errors.category && (
@@ -137,8 +133,6 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Image URL"
-          value={"fjs"} // development purpose only
-          //FIXME -  remove it when done
         />
 
         {errors.link && <p className="startup-form_error">{errors.link}</p>}
@@ -159,8 +153,6 @@ const StartupForm = () => {
           textareaProps={{
             placeholder:
               "Briefly describe your idea and what problem it solves",
-            value: "fjs", // development purpose only
-            //FIXME -  remove it when done
           }}
           previewOptions={{
             disallowedElements: ["style"],

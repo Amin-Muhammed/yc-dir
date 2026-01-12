@@ -23,3 +23,14 @@ export function formatNouneToLocaleString(
       ? `1 ${noun}`
       : `${number.toLocaleString()} ${noun}s`;
 }
+export function parseServerActionResponse<T>(response: T) {
+  return JSON.parse(JSON.stringify(response)) as T;
+}
+export function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "") // remove special chars
+    .replace(/\s+/g, "-") // replace spaces with -
+    .replace(/-+/g, "-"); // remove duplicate -
+}

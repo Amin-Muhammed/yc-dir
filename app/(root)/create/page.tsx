@@ -3,7 +3,6 @@ import { getSession, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
-interface pageProps {}
 const Page = ({}: pageProps): ReactNode => {
   //   const { data: session, status } = useSession();
   const session = getSession();

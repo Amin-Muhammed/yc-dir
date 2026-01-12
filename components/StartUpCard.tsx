@@ -1,11 +1,11 @@
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "./ui/button";
-import { Startup } from "@/sanity/types/typegen";
 import { StartupTypes } from "@/app/(root)/page";
+import { Skeleton } from "./ui/skeleton";
 
 const StartUpCard = ({ post }: { post: StartupTypes }): ReactNode => {
   const {
@@ -32,13 +32,13 @@ const StartUpCard = ({ post }: { post: StartupTypes }): ReactNode => {
           <Link href={`/user/${author?._id}`}>
             <p className="text-16-medium! line-clamp-1!">{author?.name}</p>
           </Link>
-          <Link href={`/startup/${author?._id}`}>
+          <Link href={`/startup/${_id}`}>
             <h3 className="text-26-semibold">{title}</h3>
           </Link>
         </div>
-        <Link href={`/startup/${author?._id}`}>
+        <Link href={`/user/${author?._id}`}>
           <Image
-            src="https://placehold.co/48x48"
+            src={author?.image || "https://placehold.co/48x48"}
             alt="place holder"
             width={48}
             height={48}
@@ -74,5 +74,15 @@ const StartUpCard = ({ post }: { post: StartupTypes }): ReactNode => {
     </li>
   );
 };
-
+export const StartUpCardSkeleton = (): ReactNode => {
+  return (
+    <>
+      {[1, 2, 3, 4].map((index) => (
+        <li key={cn("skeleton", index)}>
+          <Skeleton className="startup-card_skeleton" />
+        </li>
+      ))}
+    </>
+  );
+};
 export default StartUpCard;

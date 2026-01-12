@@ -15,6 +15,7 @@ interface pageProps {
 }
 const page = async ({ params }: pageProps): Promise<ReactNode> => {
   const id = (await params)?.id;
+  console.log(id);
   const details = await client.fetch(START_UP_BY_ID_QUERY, { id });
   const { category, author, _createdAt, title, pitch, description, image } =
     details;
@@ -46,16 +47,16 @@ const page = async ({ params }: pageProps): Promise<ReactNode> => {
               className="flex items-center gap-2 mb-3!"
             >
               <Image
-                src={author.image}
+                src={author?.image}
                 alt="author avatar"
                 width={64}
                 height={64}
                 className="rounded-full drop-shadow-xl"
               />
               <div>
-                <p className="text-20-medium">{author.name}</p>
+                <p className="text-20-medium">{author?.name}</p>
                 <p className="text-16-medium text-black-300!">
-                  @{author.username}
+                  @{author?.username}
                 </p>
               </div>
             </Link>

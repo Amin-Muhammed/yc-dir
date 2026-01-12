@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { client } from "@/sanity/lib/client";
 import { writeClient } from "@/sanity/lib/write-client";
 import { AUTHOR_BY_GOOGLE_ID_QUERY } from "@/sanity/lib/queries";
-
+export const runtime = "nodejs"; // 🔴 REQUIRED
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -12,6 +12,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
 
   session: {
     strategy: "jwt",

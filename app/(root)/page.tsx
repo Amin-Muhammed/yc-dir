@@ -1,7 +1,6 @@
 import Image from "next/image";
 import SearchForm from "../../components/SearchForm";
 import StartUpCard from "@/components/StartUpCard";
-import { client } from "@/sanity/lib/client";
 import { startupQuery } from "@/sanity/lib/queries";
 import { Author, Startup } from "@/sanity/types/typegen";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
@@ -14,9 +13,12 @@ export default async function Home({
 }) {
   const params = await searchParams;
   const query = params["search-query"];
-  
+  console.log(query);
   // const post:  = await client.fetch(startupQuery);
-  const { data: post } = await sanityFetch({ query: startupQuery });
+  const { data: post } = await sanityFetch({
+    query: startupQuery,
+    params: { search: query || null },
+  });
   // const post = [
   //   {
   //     _created_at: new Date(),
@@ -63,11 +65,19 @@ export default async function Home({
           {`${query ? `Search results for "${query}"` : "All Startups"}`}
         </p>
 
-        <ul className="mt-7 card_grid">
-          {post.map((p: StartupTypes) => (
-            <StartUpCard key={p?._id} post={p} />
-          ))}
-        </ul>
+        {post.length > 0 ? (
+          <ul className="mt-7 card_grid">
+            {post.map((p: StartupTypes) => (
+              <StartUpCard key={p?._id} post={p} />
+            ))}
+          </ul>
+        ) : (
+          <div>
+            <h1 className="mt-7 text-center text-2xl! font-extrabold! text-primary">
+              No startups found.
+            </h1>
+          </div>
+        )}
       </section>
       <SanityLive />
     </>
