@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "prebuild": "npm run typegen",
-    "typegen": "sanity schema extract --path=./sanity/schema.json && sanity typegen generate"
+    "lint": "eslint"
   },
   "packageManager": "npm@10.5.2",
   "overrides": {
