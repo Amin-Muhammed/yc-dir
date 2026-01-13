@@ -1,7 +1,8 @@
-import { FileInput, LogInIcon, LogOutIcon } from "lucide-react";
+import { BadgePlus, FileInput, LogInIcon, LogOutIcon } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -21,8 +22,8 @@ const Navbar = () => {
                 href="/create"
                 className="flex-between gap-2 justify-center "
               >
-                <FileInput />
-                <span>Create</span>
+                <BadgePlus className="size-6 xs:size-5 sm:hidden" />
+                <span className="max-sm:hidden">Create</span>
               </Link>
 
               <button
@@ -31,25 +32,25 @@ const Navbar = () => {
                 type="submit"
               >
                 <span className="self-center">
-                  <LogOutIcon />
+                  <LogOutIcon className="size-6 xs:size-5" />
                 </span>
-                <span>log out</span>
+                <span className="max-sm:hidden">log out</span>
               </button>
 
               <Link
                 href={`/user/${user?.id}`}
                 className="flex items-center justify-between gap-4"
               >
-                <span>{user.name}</span>
-
-                <Image
-                  src={user.image || "/default-profile.png"}
-                  alt="profile"
-                  width={40}
-                  height={40}
-                  className="rounded-full ml-2"
-                  unoptimized
-                />
+                <span className="xs:text-2!">{user?.name}</span>
+                <Avatar className="size-10">
+                  {" "}
+                  <AvatarImage
+                    src={user?.image || ""}
+                    className=""
+                    alt={session?.user?.name || ""}
+                  />
+                  <AvatarFallback>AV</AvatarFallback>
+                </Avatar>
               </Link>
             </>
           ) : (

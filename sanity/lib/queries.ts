@@ -46,8 +46,8 @@ export const AUTHOR_BY_GOOGLE_ID_QUERY =
   bio,
 }`);
 export const AUTHOR_BY_ID_QUERY =
-  defineQuery(`*[_type == "author" && _id==$id][0]{ 
-  _id,
+  defineQuery(`*[_type == "author" && _id==][0]{ 
+  _id,$id
   googleId,
   name,
   image,
