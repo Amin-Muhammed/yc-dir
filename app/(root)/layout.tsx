@@ -2,7 +2,6 @@
 import type { ReactNode } from "react";
 import Navbar from "../../components/Navbar";
 import { SessionProvider } from "next-auth/react";
-import "easymde/dist/easymde.min.css";
 interface layoutProps {
   children: ReactNode;
 }
