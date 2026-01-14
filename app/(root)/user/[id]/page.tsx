@@ -1,7 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { StartUpCardSkeleton } from "@/components/StartUpCard";
 import UserStartups from "@/components/UserStartups";
-import sanityCli from "@/sanity.cli";
 import { client } from "@/sanity/lib/client";
 import { AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { getServerSession } from "next-auth";
