@@ -6,8 +6,6 @@ import { getSanityImageUrl, parseServerActionResponse } from "../utils";
 import slugify from "slugify";
 import { writeClient } from "@/sanity/lib/write-client";
 
-// --- moderation helper here (same as above) ---
-
 export const createPitch = async (
   state: any,
   formData: FormData,

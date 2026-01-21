@@ -14,10 +14,7 @@ const SearchForm = ({ query }: SearchFormProps) => {
         placeholder="search"
         name="search-query"
       />
-      <div
-        className="
-      flex gap-2"
-      >
+      <div className="flex items-center gap-4">
         {query && <ResetSearchForm />}
         <Button type="submit" className="search-btn text-amber-50!">
           <SearchIcon />

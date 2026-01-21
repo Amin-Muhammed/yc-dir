@@ -49,3 +49,7 @@ functions/**/node_modules/
 
 # Sentry Config File
 .env.sentry-build-plugin
+ 
+# console logs
+logs
+*.log
