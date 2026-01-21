@@ -6,7 +6,11 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "3mb",
+    },
+  },
 
   images: {
     dangerouslyAllowSVG: true,

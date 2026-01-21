@@ -1,4 +1,4 @@
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, getSanityImageUrl } from "@/lib/utils";
 import { Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,7 +51,7 @@ const StartUpCard = ({ post }: { post: StartupTypes }): ReactNode => {
         <p className="startup-card_desc">{description}</p>
         <Image // remember to provide fall back image
           className="startup-card_img"
-          src={image || "https://placehold.co/400x400"}
+          src={getSanityImageUrl(image) || "https://placehold.co/400x400"}
           alt="place holder"
           width={600}
           height={400}

@@ -9,57 +9,61 @@ import { Send } from "lucide-react";
 import { z } from "zod";
 import { formSchema } from "@/lib/validation";
 import { toast } from "sonner";
-import { createPitch } from "@/lib/actions";
+import { createPitch } from "@/lib/actions/createPitch";
 import { useRouter } from "next/navigation";
-// import { createIdea } from "@/lib/actions";
-
-//////////////////////////////////////////////////////////////////
+import {
+  Dropzone,
+  DropzoneContent,
+  DropzoneEmptyState,
+} from "@/components/ui/shadcn-io/dropzone";
+import Image from "next/image";
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
+  const [file, setFile] = useState<File | undefined>();
   const router = useRouter();
+
+  const handleDrop = (files: File[]) => {
+    if (files.length > 0) {
+      setFile(files[0]); // single file only
+    }
+  };
+
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
-      const formValues = {
-        title: formData.get("title") as string,
-        description: formData.get("description") as string,
-        category: formData.get("category") as string,
-        link: formData.get("link") as string,
-        pitch,
-      };
+      const title = formData.get("title") as string;
+      const description = formData.get("description") as string;
+      const category = formData.get("category") as string;
+
+      const formValues = { title, description, category, image: file, pitch };
       await formSchema.parseAsync(formValues);
 
-      const result = await createPitch(prevState, formData, pitch);
-      console.log(result);
+      // Pass the file to createPitch for uploading
+      const result = await createPitch(prevState, formData, pitch, file);
 
-      if (result.status == "SUCCESS") {
+      if (result.status === "SUCCESS") {
         toast.success("Your startup pitch has been created successfully", {
           description: "Thank you for sharing your idea with the community!",
         });
-
-        router?.push(`/startup/${result._id}`);
+        router.push(`/startup/${result._id}`);
       }
 
       return result;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const fieldErorrs = error.flatten().fieldErrors;
-
-        setErrors(fieldErorrs as unknown as Record<string, string>);
-        toast.error("invalid input", {
-          description: "please try again with correct input",
-        });
+        const fieldErrors = error.flatten().fieldErrors;
+        setErrors(fieldErrors as unknown as Record<string, string>);
+        toast.error("Invalid input", { description: "Please try again" });
         return { ...prevState, error: "Validation failed", status: "ERROR" };
       }
 
-      toast.error("Unkown Error occured", {
-        description: "please try again",
+      toast.error("Unknown error occurred", {
+        description: "Please try again",
       });
-
       return {
         ...prevState,
-        error: "An unexpected error has occurred",
+        error: "An unexpected error occurred",
         status: "ERROR",
       };
     }
@@ -83,7 +87,6 @@ const StartupForm = () => {
           required
           placeholder="Startup Title"
         />
-
         {errors.title && (
           <p className="startup-form_error">{errors.title[0]}</p>
         )}
@@ -100,7 +103,6 @@ const StartupForm = () => {
           required
           placeholder="Startup Description"
         />
-
         {errors.description && (
           <p className="startup-form_error">{errors.description}</p>
         )}
@@ -115,50 +117,54 @@ const StartupForm = () => {
           name="category"
           className="startup-form_input"
           required
-          placeholder="Startup Category (Tech, Health, Education...)"
+          placeholder="Startup Category"
         />
-
         {errors.category && (
           <p className="startup-form_error">{errors.category}</p>
         )}
       </div>
 
-      <div>
-        <label htmlFor="link" className="startup-form_label">
-          Image URL
+      <div className="flex flex-col">
+        <label htmlFor="image" className="startup-form_label">
+          Image
         </label>
-        <Input
-          id="link"
-          name="link"
-          className="startup-form_input"
-          required
-          placeholder="Startup Image URL"
-        />
-
-        {errors.link && <p className="startup-form_error">{errors.link}</p>}
+        <Dropzone
+          accept={{ "image/*": [] }}
+          onDrop={handleDrop}
+          onError={console.error}
+          src={file ? [file] : undefined}
+          multiple={false}
+        >
+          <DropzoneEmptyState />
+          <DropzoneContent />
+        </Dropzone>
+        {file && (
+          <div className="self-center pt-5!">
+            <p className="text-center font-bold">Previwe</p>
+            <img
+              src={URL.createObjectURL(file)}
+              alt="Preview"
+              className="h-40 w-40 mt-2 object-cover self-center m-4!"
+            />
+          </div>
+        )}
+        {errors.image && <p className="startup-form_error">{errors.image}</p>}
       </div>
 
       <div data-color-mode="light">
         <label htmlFor="pitch" className="startup-form_label">
           Pitch
         </label>
-
         <MDEditor
           value={pitch}
-          onChange={(value) => setPitch(value as string)}
+          onChange={(value) => setPitch(value || "")}
           id="pitch"
           preview="edit"
           height={300}
           style={{ borderRadius: 20, overflow: "hidden" }}
-          textareaProps={{
-            placeholder:
-              "Briefly describe your idea and what problem it solves",
-          }}
-          previewOptions={{
-            disallowedElements: ["style"],
-          }}
+          textareaProps={{ placeholder: "Briefly describe your idea..." }}
+          previewOptions={{ disallowedElements: ["style"] }}
         />
-
         {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
       </div>
 

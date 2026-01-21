@@ -1,4 +1,4 @@
-import { formatDate } from "@/lib/utils";
+import { formatDate, getSanityImageUrl } from "@/lib/utils";
 import { client } from "@/sanity/lib/client";
 import { START_UP_BY_ID_QUERY } from "@/sanity/lib/queries";
 import Link from "next/link";
@@ -15,13 +15,13 @@ interface pageProps {
 }
 const page = async ({ params }: pageProps): Promise<ReactNode> => {
   const id = (await params)?.id;
-  console.log(id);
   const details = await client.fetch(START_UP_BY_ID_QUERY, { id });
   const { category, author, _createdAt, title, pitch, description, image } =
     details;
   if (!details) {
     return notFound();
   }
+
   const parsedContent = md.render(pitch || "");
   return (
     <>
@@ -33,7 +33,7 @@ const page = async ({ params }: pageProps): Promise<ReactNode> => {
       </section>
       <section className="section_container">
         <Image
-          src={image}
+          src={getSanityImageUrl(image) || "https://placehold.co/400x300"}
           alt={"thubmnail"}
           width={400}
           height={300}

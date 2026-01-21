@@ -12,6 +12,8 @@
  * ---------------------------------------------------------------------------------
  */
 
+import { Image } from "sanity";
+
 // Source: sanity/extract.json
 export type AuthorReference = {
   _ref: string;
@@ -32,7 +34,7 @@ export type Startuptypes = {
   views?: number;
   description?: string;
   category?: string;
-  image?: string;
+  image?: Image;
   markdown?: Code;
 };
 export type Startup = Omit<Startuptypes, "markdown"> & { markdown?: "string" };

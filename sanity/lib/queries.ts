@@ -1,5 +1,4 @@
 import { defineQuery } from "next-sanity";
-
 export const startupQuery =
   defineQuery(`*[_type == "startup" && defined(slug.current) &&( !defined($search) || title match $search || author-> name match $search || description match $search || category match $search)]|order(_createdAt desc){
   _id,
@@ -46,8 +45,8 @@ export const AUTHOR_BY_GOOGLE_ID_QUERY =
   bio,
 }`);
 export const AUTHOR_BY_ID_QUERY =
-  defineQuery(`*[_type == "author" && _id==][0]{ 
-  _id,$id
+  defineQuery(`*[_type == "author" &&  _id==$id][0]{ 
+  _id,
   googleId,
   name,
   image,

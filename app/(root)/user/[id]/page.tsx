@@ -17,6 +17,7 @@ const Page = async ({ params }: pageProps): Promise<ReactNode> => {
     return notFound();
   }
   const user = await client.fetch(AUTHOR_BY_ID_QUERY, { id });
+
   return (
     <>
       <section className="profile_container">

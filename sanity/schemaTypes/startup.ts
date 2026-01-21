@@ -45,7 +45,11 @@ export const startup = defineType({
     }),
     defineField({
       name: "image",
-      type: "url",
+      title: "Image",
+      type: "image",
+      options: {
+        hotspot: true, // allows cropping/focusing
+      },
       validation: (Rule) => Rule.required().error("Image is required"),
     }),
     defineField({

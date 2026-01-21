@@ -1,7 +1,6 @@
 import * as z from "zod";
 
-export const formSchema =
- z.object({
+export const formSchema = z.object({
   title: z
     .string()
     .min(5, "Title should be at least 5 characters.")
@@ -17,22 +16,12 @@ export const formSchema =
     .min(3, "Category should be at least 3 characters.")
     .max(30, "Category should be no more than 30 characters."),
 
-  link: z
-    .string()
-    .url("Please enter a valid image URL.")
+  image: z
+    .file()
+    .refine((file) => file.size <= 3 * 1024 * 1024, "Max file size is 3MB")
     .refine(
-      async (url) => {
-        try {
-          const res = await fetch(url, { method: "HEAD" });
-          const contentType = res.headers.get("content-type");
-          return contentType?.startsWith("image/");
-        } catch {
-          return false;
-        }
-      },
-      {
-        message: "The URL must point to a valid image (jpg, png, webp, etc.).",
-      }
+      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      "Only JPEG, PNG, and WEBP formats are accepted."
     ),
 
   pitch: z
