@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <header className="px-5! bg-white shadow-sm! py-3! font-work-sans text-stone-900!">
       <nav className="flex justify-between items-center">
-        <Link href="/" className="text-2xl! font-bold!">
+        <Link href="/" className="text-2xl! flex-1! font-bold!">
           <Image src="/logo.png" alt="logo" width={144} height={30} />
         </Link>
 
@@ -22,7 +22,7 @@ const Navbar = () => {
                 href="/create"
                 className="flex-between gap-2 justify-center "
               >
-                <BadgePlus className="size-6 xs:size-5 sm:hidden" />
+                <BadgePlus className="size-5 xs:size-6 " />
                 <span className="max-sm:hidden">Create</span>
               </Link>
 
@@ -32,16 +32,21 @@ const Navbar = () => {
                 type="submit"
               >
                 <span className="self-center">
-                  <LogOutIcon className="size-6 xs:size-5" />
+                  <LogOutIcon className="size-5 xs:size-6 " />
                 </span>
                 <span className="max-sm:hidden">log out</span>
               </button>
 
               <Link
                 href={`/user/${user?.id}`}
-                className="flex items-center justify-between gap-4"
+                className="flex items-center justify-between gap-4  "
               >
-                <span className="xs:text-2!">{user?.name}</span>
+                <span
+                  className="text-sm hidden
+                 sm:block sm:text-sm "
+                >
+                  {user?.name}
+                </span>
                 <Avatar className="size-10">
                   {" "}
                   <AvatarImage
