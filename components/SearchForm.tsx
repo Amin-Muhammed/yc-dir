@@ -1,5 +1,4 @@
 import Form from "next/form";
-import type { ReactNode } from "react";
 import ResetSearchForm from "./ResetSearchForm";
 import { SearchIcon } from "lucide-react";
 import { Button } from "./ui/button";
