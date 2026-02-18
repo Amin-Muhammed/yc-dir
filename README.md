@@ -42,8 +42,7 @@ pitches, and gain exposure through a clean minimalistic design for a smooth user
 
 ## <a name="liveUrl">🔋 LiveUrl</a>
 
- checkout live website here:
- <a href="https://yc-directory-rho-one.vercel.app/" target="_blank">
+checkout live website here: ['https://yc-directory-rho-one.vercel.app/']
 
 ## <a name="features">🔋 Features</a>
 
