@@ -2,7 +2,7 @@ import * as z from "zod";
 
 export const formSchema = z.object({
   title: z
-    .string()
+    .email()
     .min(5, "Title should be at least 5 characters.")
     .max(60, "Title should be no more than 60 characters."),
 
@@ -21,7 +21,7 @@ export const formSchema = z.object({
     .refine((file) => file.size <= 3 * 1024 * 1024, "Max file size is 3MB")
     .refine(
       (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
-      "Only JPEG, PNG, and WEBP formats are accepted."
+      "Only JPEG, PNG, and WEBP formats are accepted.",
     ),
 
   pitch: z
